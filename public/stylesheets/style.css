@@ -1,0 +1,30 @@
+body {
+    padding: 50px;
+    font: 14px "Lucida Grande", Helvetica, Arial, sens-serif;
+}
+
+a {
+    color: #00B7FF;
+}
+
+#content {
+    width: 800px;
+    margin-left: auto;
+    margin-right: auto;
+}
+/*Облась где выводится название текущей комнаты*/
+#room {
+    background-color: #ddd;
+    margin-bottom: 1em;
+}
+/*Область ввода сообщения */
+#messages {
+    width: 690px;
+    height: 300px;
+    /*Обеспечивает прокрутку вводимых сообщений
+    после заполнения соответствующей области*/
+    overflow: auto;
+    background-color: #eee;
+    margin-bottom: 1em;
+    margin-right: 10px;
+}
