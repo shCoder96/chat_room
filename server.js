@@ -22,14 +22,21 @@ const serveStatic = (response, cache, absPath) => {
         sendFile(response, absPath, cache[absPath]);
     }
     else {
-        fs.access(absPath, fs.R_OK, (err, data) => {
+        fs.stat(absPath,  (err) => {
             if (err) {
                 send404(response);
-            } else {
-                cache[absPath] = data;
-                sendFile(response, absPath, data);
             }
-        });
+            else {
+                fs.readFile(absPath, (err, data) => {
+                    if (err) {
+                        send404(response);
+                    } else {
+                        sendFile(response, absPath, data);
+                        cache[absPath] = data;
+                    }
+                })
+            }
+        })
     }
 };
 
@@ -37,9 +44,13 @@ const server = http.createServer();
 
 server.on('request', (request, response) => {
    let filePath = false;
-   request.url == '/' ? filePath = 'public/index.html' : filePath = 'public' + request.url;
+   request.url === '/' ? filePath = 'public/index.html' : filePath = 'public' + request.url;
    let absPath = './' + filePath;
    serveStatic(response, cache, absPath);
    console.log(absPath)
 }).listen(3000, () => console.log('Server is running with localhost:3000'));
 
+// Здесь код Socket.io
+
+const chatServer = require('./lib/chat_server');
+chatServer.listen(server);
